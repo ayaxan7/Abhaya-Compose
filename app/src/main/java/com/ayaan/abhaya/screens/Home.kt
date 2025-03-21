@@ -13,12 +13,19 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ayaan.abhaya.utils.LocationHelper
 import com.ayaan.abhaya.viewmodels.HomeViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreen(navController: NavController, vm: HomeViewModel = viewModel()) {
+    val context = LocalContext.current
+    val locationHelper = remember { LocationHelper(context) }
     LaunchedEffect(Unit) {
         vm.fetchUserData()
     }
@@ -117,22 +124,21 @@ fun HomeScreen(navController: NavController, vm: HomeViewModel = viewModel()) {
                 .fillMaxSize()
                 .weight(1f)
         ) {
-            // Centered Button
-            // Centered Button
             Button(
                 onClick = {
                     userData?.let { user ->
-                        // You would typically get these from location services
-                        // Using placeholder values for demonstration
-                        val currentLatitude = 37.422160
-                        val currentLongitude = -122.084270
-
-                        vm.sendSos(
-                            latitude = currentLatitude,
-                            longitude = currentLongitude,
-                            name = user.name,
-                            phoneNo = user.phoneNo
-                        )
+                        // Launch coroutine to fetch location
+                        vm.viewModelScope.launch {
+                            val location = locationHelper.getCurrentLocation()
+                            if (location != null) {
+                                vm.sendSos(
+                                    latitude = location.latitude,
+                                    longitude = location.longitude,
+                                    name = user.name,
+                                    phoneNo = user.phoneNo
+                                )
+                            }
+                        }
                     }
                 },
                 modifier = Modifier.align(Alignment.Center),
@@ -142,21 +148,20 @@ fun HomeScreen(navController: NavController, vm: HomeViewModel = viewModel()) {
                 Text(text = "SOS", style = MaterialTheme.typography.titleMedium)
             }
 
-            // FAB in Bottom Right
             FloatingActionButton(
                 onClick = {
-                    userData?.let { user ->
-                        // You would typically get these from location services
-                        // Using placeholder values for demonstration
-                        val currentLatitude = 37.422160
-                        val currentLongitude = -122.084270
-
-                        vm.sendSos(
-                            latitude = currentLatitude,
-                            longitude = currentLongitude,
-                            name = "Anonymous",
-                            phoneNo = "XXXXXXXXX"
-                        )
+                    userData?.let { _ ->
+                        vm.viewModelScope.launch {
+                            val location = locationHelper.getCurrentLocation()
+                            if (location != null) {
+                                vm.sendSos(
+                                    latitude = location.latitude,
+                                    longitude = location.longitude,
+                                    name = "Anonymous",
+                                    phoneNo = "XXXXXXXXX"
+                                )
+                            }
+                        }
                     }
                 },
                 modifier = Modifier
