@@ -128,6 +128,12 @@ fun HomeScreen(navController: NavController, vm: HomeViewModel = viewModel()) {
                 onClick = {
                     userData?.let { user ->
                         // Launch coroutine to fetch location
+                        val sharedPrefs = context.getSharedPreferences("user_data", android.content.Context.MODE_PRIVATE)
+                        sharedPrefs.edit().apply {
+                            putString("name", user.name)
+                            putString("number", user.phoneNo)
+                            apply()
+                        }
                         vm.viewModelScope.launch {
                             val location = locationHelper.getCurrentLocation()
                             if (location != null) {

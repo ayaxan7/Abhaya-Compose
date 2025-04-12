@@ -69,7 +69,8 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     implementation (libs.hilt.android)
     ksp(libs.google.hilt.compiler)
-
+    //Canary Leaks (for checking memory leaks)
+    debugImplementation ("com.squareup.leakcanary:leakcanary-android:2.14")
     // For instrumentation tests
     androidTestImplementation  (libs.dagger.hilt.android.testing)
     kspAndroidTest(libs.google.hilt.compiler)
@@ -88,5 +89,6 @@ dependencies {
     //retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-
+    implementation ("androidx.glance:glance-appwidget:1.1.1")
+    implementation ("androidx.glance:glance-material3:1.1.1")
 }

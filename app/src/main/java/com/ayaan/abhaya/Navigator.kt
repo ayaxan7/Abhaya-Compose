@@ -68,11 +68,11 @@ fun Navigator(innerPadding: PaddingValues){
     }
 }
 sealed class Destinations(val route: String){
-    object Login: Destinations("login")
-    object Home: Destinations("home")
-    object Profile: Destinations("profile")
-    object Friends: Destinations("friends")
-    object About: Destinations("about")
-    object SignUp: Destinations("signup")
-    object ForgotPassword: Destinations("forgotpassword")
+    data object Login: Destinations("login")
+    data object Home: Destinations("home")
+    data object Profile: Destinations("profile")
+    data object Friends: Destinations("friends")
+    data object About: Destinations("about")
+    data object SignUp: Destinations("signup")
+    data object ForgotPassword: Destinations("forgotpassword")
 }

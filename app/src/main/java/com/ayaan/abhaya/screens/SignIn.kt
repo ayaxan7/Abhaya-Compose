@@ -32,7 +32,7 @@ fun SignInScreen(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
-    var context = LocalContext.current
+    val context = LocalContext.current
     val signInState by viewModel.signInState
 
     val scope = rememberCoroutineScope()
