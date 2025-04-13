@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import com.ayaan.abhaya.ui.theme.AbhayaComposeTheme
 
 class MainActivity : ComponentActivity() {
-    private lateinit var mediaSession: MediaSession
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

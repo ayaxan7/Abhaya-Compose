@@ -13,56 +13,59 @@ import kotlinx.coroutines.*
 
 class VolumeButtonAccessibilityService : AccessibilityService() {
 
-    private var volumeDownCount = 0
-    private var lastPressTime = 0L
-    private val pressTimeout = 1500L // Max allowed time between presses (ms)
+    private val sequence = mutableListOf<Int>()
+    private val volumeSequence = listOf(
+        KeyEvent.KEYCODE_VOLUME_DOWN,
+        KeyEvent.KEYCODE_VOLUME_UP,
+        KeyEvent.KEYCODE_VOLUME_DOWN,
+        KeyEvent.KEYCODE_VOLUME_UP
+    )
+    private val sequenceTimeout = 3000L // 2 seconds to complete the sequence
+    private var lastEventTime = 0L
+
+    private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
+
+    private val homeViewModel = HomeViewModel()
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
-        // Not needed
+        // Not used
     }
 
     override fun onInterrupt() {
-        // Not needed
+        // Not used
     }
 
     override fun onKeyEvent(event: KeyEvent): Boolean {
-        if (event.action == KeyEvent.ACTION_DOWN) {
-            when (event.keyCode) {
-                KeyEvent.KEYCODE_VOLUME_DOWN -> {
-                    val currentTime = System.currentTimeMillis()
-                    if (currentTime - lastPressTime <= pressTimeout) {
-                        volumeDownCount++
-                    } else {
-                        volumeDownCount = 1
-                    }
-                    lastPressTime = currentTime
+        if (event.action != KeyEvent.ACTION_DOWN) return super.onKeyEvent(event)
 
-                    Log.d("VolumeService", "Volume DOWN Pressed $volumeDownCount times")
-                    Toast.makeText(
-                        this,
-                        "Volume DOWN Pressed $volumeDownCount times",
-                        Toast.LENGTH_SHORT
-                    ).show()
+        val currentTime = System.currentTimeMillis()
 
-                    if (volumeDownCount == 3) {
-                        volumeDownCount = 0
-                        sos()
-                    }
-                }
-            }
+        if (currentTime - lastEventTime > sequenceTimeout) {
+            sequence.clear()
         }
+
+        lastEventTime = currentTime
+        sequence.add(event.keyCode)
+
+        // Keep only the latest N entries (length of sequence)
+        if (sequence.size > volumeSequence.size) {
+            sequence.removeAt(0)
+        }
+
+        if (sequence == volumeSequence) {
+            sequence.clear()
+            Log.d("VolumeService", "Custom volume sequence detected")
+            Toast.makeText(this, "🚨 SOS Triggered! 🚨", Toast.LENGTH_SHORT).show()
+            sos()
+        }
+
         return super.onKeyEvent(event)
     }
 
     private fun sos() {
-        // Trigger your SOS logic here
         Log.d("VolumeService", "SOS Triggered!")
         Toast.makeText(this, "🚨 SOS Triggered! 🚨", Toast.LENGTH_LONG).show()
-        val homeViewModel = HomeViewModel()
-        homeViewModel.fetchUserData()
-        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-        // Step 1: Fetch location
         if (ActivityCompat.checkSelfPermission(
                 this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION
@@ -71,15 +74,16 @@ class VolumeButtonAccessibilityService : AccessibilityService() {
             Toast.makeText(this, "Location permission not granted", Toast.LENGTH_SHORT).show()
             return
         }
+
+        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
         fusedLocationClient.lastLocation.addOnSuccessListener { location ->
             if (location != null) {
                 val latitude = location.latitude
                 val longitude = location.longitude
 
-                // Step 2: Observe user data
-                homeViewModel.fetchUserData()
-                val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
                 serviceScope.launch {
+                    homeViewModel.fetchUserData() // make sure this sets `userData` Flow correctly
                     homeViewModel.userData.collect { userData ->
                         if (userData != null) {
                             homeViewModel.sendSos(
@@ -88,7 +92,12 @@ class VolumeButtonAccessibilityService : AccessibilityService() {
                                 userData.name,
                                 userData.phoneNo
                             )
-                            Toast.makeText(this@VolumeButtonAccessibilityService, "🚨 SOS Sent!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this@VolumeButtonAccessibilityService,
+                                "🚨 SOS Sent!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            cancel() // Cancel the coroutine after SOS is sent
                         }
                     }
                 }
@@ -97,10 +106,10 @@ class VolumeButtonAccessibilityService : AccessibilityService() {
             }
         }
     }
+
     override fun onDestroy() {
         super.onDestroy()
-        volumeDownCount = 0
-        lastPressTime = 0L
+        serviceScope.cancel()
         Log.d("VolumeService", "Service destroyed")
     }
 }
