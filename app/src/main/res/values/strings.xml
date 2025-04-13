@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Abhaya</string>
+    <string name="volume_service_description">Detect volume key presses for emergency actions</string>
 </resources>
