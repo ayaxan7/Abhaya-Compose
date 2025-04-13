@@ -43,14 +43,9 @@
 <!--            </intent-filter>-->
 <!--        </receiver>-->
 
-        <!-- Foreground Service for SOS -->
-<!--        <service-->
-<!--            android:name=".SosForegroundService"-->
-<!--            android:enabled="true"-->
-<!--            android:exported="false"-->
-<!--            android:foregroundServiceType="location|dataSync|mediaPlayback" />-->
+        <!-- Accessibility Service for SOS -->
         <service
-            android:name=".VolumeButtonAccessibilityService"
+            android:name=".services.VolumeButtonAccessibilityService"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
             android:exported="true">
             <intent-filter>

@@ -1,4 +1,4 @@
-package com.ayaan.abhaya
+package com.ayaan.abhaya.services
 
 import android.accessibilityservice.AccessibilityService
 import android.content.pm.PackageManager
