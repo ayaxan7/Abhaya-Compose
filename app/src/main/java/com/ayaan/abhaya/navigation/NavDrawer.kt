@@ -12,7 +12,7 @@ import androidx.navigation.NavController
 @Composable
 fun NavDrawer(navController: NavController){
     Text(
-        text = "Settings",
+        text = "Emergency Contacts",
         modifier = Modifier
             .fillMaxWidth()
             .clickable { navController.navigate(Destinations.Friends.route)}

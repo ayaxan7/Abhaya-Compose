@@ -1,20 +1,19 @@
 package com.ayaan.abhaya.screens
-
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ModalDrawerSheet
-import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.rememberDrawerState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import android.content.Context
+import android.content.Intent
+import android.provider.ContactsContract
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ayaan.abhaya.navigation.NavDrawer
 import com.ayaan.abhaya.navigation.TopBar
-import com.ayaan.abhaya.utils.LocationHelper
 import kotlinx.coroutines.launch
 
 @Composable
@@ -22,20 +21,41 @@ fun Friends(navController: NavController) {
     val context = LocalContext.current
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+
     ModalNavigationDrawer(
-        drawerState = drawerState, drawerContent = {
+        drawerState = drawerState,
+        drawerContent = {
             ModalDrawerSheet {
                 NavDrawer(navController)
             }
-        }) {
-        Column(modifier = Modifier.fillMaxSize()) {
-            TopBar(
-                navController = navController, title = "Emergency Contacts", onMenuClick = {
-                    scope.launch {
-                        drawerState.open()
+        }
+    ) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            Column {
+                TopBar(
+                    navController = navController,
+                    title = "Emergency Contacts",
+                    onMenuClick = {
+                        scope.launch {
+                            drawerState.open()
+                        }
                     }
-                }
-            )
+                )
+                // Your main content goes here
+            }
+
+            FloatingActionButton(
+                onClick = {  openContactsPicker(context)},
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(16.dp)
+            ) {
+                Icon(Icons.Default.Add, contentDescription = "Add Contact")
+            }
         }
     }
+}
+fun openContactsPicker(context: Context) {
+    val intent = Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI)
+    context.startActivity(intent)
 }
