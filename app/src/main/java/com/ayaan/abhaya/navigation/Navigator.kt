@@ -1,4 +1,4 @@
-package com.ayaan.abhaya
+package com.ayaan.abhaya.navigation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.ayaan.abhaya.screens.Friends
 import com.ayaan.abhaya.screens.HomeScreen
 import com.ayaan.abhaya.screens.SignInScreen
 import com.ayaan.abhaya.screens.SignUpScreen
@@ -44,7 +45,7 @@ fun Navigator(innerPadding: PaddingValues) {
 
         }
         composable(route = Destinations.Friends.route) {
-
+            Friends(navController = navController )
         }
         composable(route = Destinations.SignUp.route) {
             SignUpScreen(onSignUpClick = {

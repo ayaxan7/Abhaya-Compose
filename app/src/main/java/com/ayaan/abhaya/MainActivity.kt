@@ -1,7 +1,6 @@
 package com.ayaan.abhaya
 
 import android.media.AudioManager
-import android.media.session.MediaSession
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -9,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import com.ayaan.abhaya.navigation.Navigator
 import com.ayaan.abhaya.ui.theme.AbhayaComposeTheme
 
 class MainActivity : ComponentActivity() {

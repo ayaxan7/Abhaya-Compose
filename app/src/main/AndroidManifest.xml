@@ -46,8 +46,9 @@
         <!-- Accessibility Service for SOS -->
         <service
             android:name=".services.VolumeButtonAccessibilityService"
+            android:exported="true"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
-            android:exported="true">
+           >
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
             </intent-filter>

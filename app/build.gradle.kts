@@ -78,6 +78,7 @@ dependencies {
     // For local unit tests
     testImplementation (libs.dagger.hilt.android.testing)
     kspTest(libs.google.hilt.compiler)
+    implementation("androidx.compose.material3:material3:1.3.2") // Or latest version
 
     //GMAPS
     implementation(libs.play.services.maps)

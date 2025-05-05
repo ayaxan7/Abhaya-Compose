@@ -20,7 +20,7 @@ class VolumeButtonAccessibilityService : AccessibilityService() {
         KeyEvent.KEYCODE_VOLUME_DOWN,
         KeyEvent.KEYCODE_VOLUME_UP
     )
-    private val sequenceTimeout = 3000L // 2 seconds to complete the sequence
+    private val sequenceTimeout = 3000L // 3 seconds to complete the sequence
     private var lastEventTime = 0L
 
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
