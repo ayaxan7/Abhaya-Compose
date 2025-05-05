@@ -111,7 +111,8 @@ class HomeViewModel : ViewModel(){
                         latitude = latitude,
                         name = name,
                         phoneNo = phoneNo,
-                        time = System.currentTimeMillis()
+                        time = System.currentTimeMillis(),
+                        uid= user.uid
                     )
 
                     Log.d("SOS Request", "Sending SOS with fields: " +

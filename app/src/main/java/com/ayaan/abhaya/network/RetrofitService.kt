@@ -26,7 +26,8 @@ data class SosRequest(
     @SerializedName("latitude") val latitude: Double,
     @SerializedName("name") val name: String,
     @SerializedName("phoneNo") val phoneNo: String,
-    @SerializedName("time") val time: Long
+    @SerializedName("time") val time: Long,
+    @SerializedName("uid") val uid: String
 )
 
 // 3. Retrofit Client as an object (Kotlin singleton)

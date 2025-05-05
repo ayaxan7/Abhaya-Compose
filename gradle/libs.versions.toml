@@ -1,5 +1,6 @@
 [versions]
 agp = "8.9.1"
+converterGson = "2.11.0"
 hiltAndroid = "2.55"
 hiltAndroidTestingVersion = "2.52"
 hiltNavigationCompose = "1.2.0"
@@ -19,6 +20,7 @@ navigationCompose = "2.8.9"
 firebaseMessaging = "24.1.1"
 playServicesMaps = "19.1.0"
 playServicesLocation = "21.3.0"
+retrofit = "2.11.0"
 runtimeLivedata = "1.7.8"
 firebaseStorageKtx = "21.0.1"
 
@@ -26,6 +28,7 @@ firebaseStorageKtx = "21.0.1"
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 dagger-hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hiltAndroidTestingVersion" }
 google-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltAndroidTestingVersion" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
@@ -50,6 +53,7 @@ play-services-maps = { module = "com.google.android.gms:play-services-maps", ver
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
 androidx-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "runtimeLivedata" }
 firebase-storage-ktx = { group = "com.google.firebase", name = "firebase-storage-ktx", version.ref = "firebaseStorageKtx" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

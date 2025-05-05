@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import com.ayaan.abhaya.navigation.Navigator
 import com.ayaan.abhaya.ui.theme.AbhayaComposeTheme
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.messaging.FirebaseMessaging
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,9 +24,23 @@ class MainActivity : ComponentActivity() {
             AudioManager.STREAM_MUSIC,
             AudioManager.AUDIOFOCUS_GAIN
         )
-        val user= FirebaseAuth.getInstance().currentUser
-        val uid= user?.uid
-        Log.d("MainActivity", "User: $uid")
+        // Fetch FCM Token
+//        FirebaseMessaging.getInstance().getToken()
+//            .addOnCompleteListener(this) { task ->
+//                if (task.isSuccessful) {
+//                    val fcmToken = task.result
+//                    val user = FirebaseAuth.getInstance().currentUser
+//                    val uid = user?.uid
+//
+//                    // Log the UID and FCM token after fetching them
+//                    Log.d("MainActivity", "User: $uid")
+//                    Log.d("MainActivity", "FCM Token: $fcmToken")
+//
+//                    // You can now send the fcmToken to your server or use it as needed
+//                } else {
+//                    Log.w("MainActivity", "Fetching FCM token failed", task.exception)
+//                }
+//            }
         setContent {
             AbhayaComposeTheme(darkTheme = false) {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
