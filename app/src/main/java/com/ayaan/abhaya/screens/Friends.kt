@@ -8,10 +8,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -19,6 +21,7 @@ import androidx.navigation.NavController
 import com.ayaan.abhaya.navigation.NavDrawer
 import com.ayaan.abhaya.navigation.TopBar
 import com.ayaan.abhaya.viewmodels.FriendsViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @SuppressLint("Range")
@@ -63,9 +66,11 @@ fun Friends(navController: NavController, viewModel: FriendsViewModel = viewMode
             }
         }
     }
-    LaunchedEffect(friends) {
-        // This will re-fetch the friends list after adding a new contact
-        viewModel.fetchFriends()
+    LaunchedEffect(Unit) {
+        while (true) {
+            viewModel.fetchFriends()
+            delay(5000) // Adjust the delay as needed (e.g., 5000ms = 5 seconds)
+        }
     }
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -99,10 +104,27 @@ fun Friends(navController: NavController, viewModel: FriendsViewModel = viewMode
                                 Column(modifier = Modifier.padding(16.dp)) {
                                     Text("Name: ${friend.name}", style = MaterialTheme.typography.titleMedium)
                                     Text("Phone: ${friend.phone}", style = MaterialTheme.typography.bodyMedium)
-//                                    Text("FCM: ${friend.fcmToken}", style = MaterialTheme.typography.bodySmall)
                                 }
+                                Column(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalAlignment = Alignment.End
+                                ) {
+                                    IconButton(
+                                        onClick = {
+                                            viewModel.deleteFriend(context, friend.phone)
+                                        }
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Default.Delete,
+                                            contentDescription = "Delete Contact",
+                                            tint = Color.Black
+                                        )
+                                    }
+                                }
+
                             }
                         }
+
                     }
                 }
             }

@@ -111,7 +111,8 @@ class HomeViewModel : ViewModel(){
                         latitude = latitude,
                         name = name,
                         phoneNo = phoneNo,
-                        time = System.currentTimeMillis(),
+//                        time = System.currentTimeMillis().toString(),
+                        time="2025-05-06T15:00:00Z",
                         uid= user.uid
                     )
 
@@ -123,7 +124,7 @@ class HomeViewModel : ViewModel(){
                             "time=${System.currentTimeMillis()}")
 
                     // Make API call
-                    RetrofitClient.sosApiService.sendSos(authHeader, sosRequest)
+                    RetrofitClient.sosApiService.sendSos( sosRequest)
                         .enqueue(object : Callback<ResponseBody> {
                             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                                 if (response.isSuccessful) {

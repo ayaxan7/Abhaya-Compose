@@ -21,7 +21,22 @@ class FriendsViewModel: ViewModel() {
     init {
         fetchFriends()
     }
-
+    fun deleteFriend(context: Context, phone: String) {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        FirebaseFirestore.getInstance()
+            .collection("users")
+            .document(uid)
+            .collection("friends")
+            .document(phone)
+            .delete()
+            .addOnSuccessListener {
+                Toast.makeText(context, "Contact removed successfully", Toast.LENGTH_SHORT).show()
+                fetchFriends() // Refresh the list
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(context, "Failed to remove contact: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
     fun fetchFriends() {
         val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
         FirebaseFirestore.getInstance()
