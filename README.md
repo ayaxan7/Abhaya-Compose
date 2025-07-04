@@ -9,7 +9,7 @@ Abhaya is an Android-based **SOS emergency application** designed for **Smart In
   - **Regular SOS Alert** - Sent manually by the victim, containing the user's name, phone number, gender, and live location details to the police dashboard and the users' emergency contacts.
   - **Anonymous SOS Alert** - Does not include the user's name, phone number, or gender, only sending location details.
 - **HTTP POST SOS Data** - Sends an HTTP request with emergency data to a predefined endpoint for external handling.
-- **FCM Notifications** - Uses **Firebase Cloud Messaging (FCM)** to send real-time alerts.
+- **FCM Notifications** - Uses **Firebase Cloud Messaging (FCM)** to send real-time alerts with sound to get the notification reciever on their toes.
 - **Firebase Authentication** - Secure user login and registration for personalized safety settings.
 - **Crime Predictor Heat-map** - Display a OSM based heatmap to display high, medium, low rate crime zones according to past results.
 - **Foreground Location Services** - Continuously updates the user's real-time location in **Firestore**, even when the app is running in the background.
